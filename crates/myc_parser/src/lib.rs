@@ -1532,25 +1532,21 @@ impl Parser {
                     }
                 }
                 // struct literal: Name { field: value, ... }
-                let is_struct_lit = self.peek_kind() == Some(myc_lexer::TokenKind::LBrace)
-                    && path.len() == 1
-                    && {
+                let is_struct_lit =
+                    self.peek_kind() == Some(myc_lexer::TokenKind::LBrace) && path.len() == 1 && {
                         let n1 = self.tokens.get(self.pos + 1);
                         let n2 = self.tokens.get(self.pos + 2);
                         matches!(n1.map(|t| &t.kind), Some(myc_lexer::TokenKind::Ident))
                             && matches!(n2.map(|t| &t.kind), Some(myc_lexer::TokenKind::Colon))
                     };
-                if is_struct_lit
-                {
+                if is_struct_lit {
                     let struct_name = path[0].clone();
                     self.advance(); // {
                     let mut fields = Vec::new();
                     while !self.is(&myc_lexer::TokenKind::RBrace) {
                         let fname = self.parse_ident().unwrap_or_default();
-                        let _ = self.expect(
-                            |k| matches!(k, myc_lexer::TokenKind::Colon),
-                            "expected ':'",
-                        );
+                        let _ = self
+                            .expect(|k| matches!(k, myc_lexer::TokenKind::Colon), "expected ':'");
                         let val = self.parse_expr();
                         fields.push((fname, val));
                         if self.peek_kind() == Some(myc_lexer::TokenKind::Comma) {

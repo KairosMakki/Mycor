@@ -150,7 +150,11 @@ pub fn build_project(entry: &Path, out_path: &Path) -> Result<PathBuf, String> {
     build_from(file, checker, out_path)
 }
 
-fn build_from(file: myc_ast::File, checker: myc_types::Checker, out_path: &Path) -> Result<PathBuf, String> {
+fn build_from(
+    file: myc_ast::File,
+    checker: myc_types::Checker,
+    out_path: &Path,
+) -> Result<PathBuf, String> {
     let mut diags = checker.diagnostics.clone();
     let bc = myc_borrowck::check(&file, &checker.type_map);
     diags.extend(bc);
