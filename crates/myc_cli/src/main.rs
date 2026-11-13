@@ -172,8 +172,11 @@ fn main() {
                 }
             }
         }
-        Some(Commands::Test)
-        | Some(Commands::Doc)
+        Some(Commands::Test) => {
+            let (p, f) = myc_test_harness::run_all(std::path::Path::new("."));
+            println!("tests: {} passed, {} failed", p, f);
+        }
+        Some(Commands::Doc)
         | Some(Commands::Fix)
         | Some(Commands::Clean)
         | Some(Commands::Bench) => {

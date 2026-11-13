@@ -167,6 +167,7 @@ dependencies = [
  "myc_fmt",
  "myc_interp",
  "myc_pkg",
+ "myc_test_harness",
 ]
 
 [[package]]

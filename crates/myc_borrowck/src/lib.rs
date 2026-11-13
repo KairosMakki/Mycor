@@ -79,22 +79,24 @@ fn check_expr(e: &Expr, ctx: &mut Ctx) {
             for a in args {
                 check_expr(a, ctx);
             }
-            if let Expr::Path(p, _) = &**callee && p.len() == 1 {
-                    let fname = &p[0];
-                    // heuristic: if arg is a simple path and function is not builtin, mark moved
-                    // We'll mark moved for any non-copy arg path when calling user fn.
-                    // To avoid false positives for println etc, skip builtins.
-                    if fname != "println" && fname != "print" {
-                        for a in args {
-                            if let Expr::Path(pp, _) = a
-                                && pp.len() == 1
-                                && !is_copy_expr(a, ctx.type_map)
-                            {
-                                let argname = &pp[0];
-                                ctx.moved.insert(argname.clone());
-                            }
+            if let Expr::Path(p, _) = &**callee
+                && p.len() == 1
+            {
+                let fname = &p[0];
+                // heuristic: if arg is a simple path and function is not builtin, mark moved
+                // We'll mark moved for any non-copy arg path when calling user fn.
+                // To avoid false positives for println etc, skip builtins.
+                if fname != "println" && fname != "print" {
+                    for a in args {
+                        if let Expr::Path(pp, _) = a
+                            && pp.len() == 1
+                            && !is_copy_expr(a, ctx.type_map)
+                        {
+                            let argname = &pp[0];
+                            ctx.moved.insert(argname.clone());
                         }
                     }
+                }
             }
             check_expr(callee, ctx);
         }
@@ -157,4 +159,3 @@ fn check_expr(e: &Expr, ctx: &mut Ctx) {
         _ => {}
     }
 }
-
