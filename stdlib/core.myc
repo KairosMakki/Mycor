@@ -1,0 +1,18 @@
+// Core types: Option and Result
+
+enum Option[T] {
+    Some(T),
+    None,
+}
+
+enum Result[T, E] {
+    Ok(T),
+    Err(E),
+}
+
+fn is_some[T](o: Option[T]) -> bool {
+    match o {
+        Some(_) => true,
+        None => false,
+    }
+}

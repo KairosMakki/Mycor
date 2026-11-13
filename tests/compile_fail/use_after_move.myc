@@ -1,0 +1,9 @@
+struct Foo { x: i32 }
+
+fn take(f: Foo) {}
+
+fn main() {
+    let f = Foo { x: 1 };
+    take(f);
+    println(f.x);
+}

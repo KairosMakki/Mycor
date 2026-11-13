@@ -1,0 +1,9 @@
+// Growable vector (placeholder using fixed array)
+
+struct Vec[T] {
+    len: usize,
+}
+
+fn vec_new[T]() -> Vec[T] {
+    Vec { len: 0 }
+}

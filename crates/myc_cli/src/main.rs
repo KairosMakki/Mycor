@@ -149,7 +149,12 @@ fn main() {
             println!("aarch64-apple-darwin");
         }
         Some(Commands::Explain { code }) => {
-            println!("See docs/errors/{}.md", code);
+            let path = format!("docs/errors/{}.md", code);
+            if let Ok(s) = fs::read_to_string(&path) {
+                println!("{}", s);
+            } else {
+                println!("No documentation for {}", code);
+            }
         }
         Some(Commands::Version) => println!("myc 0.1.0"),
         Some(Commands::Repl) => {
