@@ -116,12 +116,7 @@ fn resolve_mod(base: &Path, name: &str) -> Option<PathBuf> {
         base.join(format!("{}.myc", name)),
         base.join(name).join("mod.myc"),
     ];
-    for c in candidates {
-        if c.exists() {
-            return Some(c);
-        }
-    }
-    None
+    candidates.into_iter().find(|c| c.exists())
 }
 
 pub fn check_source(source: &str, file_name: &str) -> Vec<myc_diagnostics::Diagnostic> {
