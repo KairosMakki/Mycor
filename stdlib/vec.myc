@@ -16,7 +16,7 @@ fn vec_is_empty[T](v: Vec[T]) -> bool {
     v.len == 0
 }
 
-fn vec_push[T](v: Vec[T], _value: T) -> Vec[T] {
+fn vec_push[T](v: Vec[T]) -> Vec[T] {
     Vec { len: v.len + 1 }
 }
 

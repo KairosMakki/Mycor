@@ -12,7 +12,7 @@ fn stack_len[T](s: Stack[T]) -> usize {
     s.len
 }
 
-fn stack_push[T](s: Stack[T], _v: T) -> Stack[T] {
+fn stack_push[T](s: Stack[T]) -> Stack[T] {
     Stack { len: s.len + 1 }
 }
 
@@ -32,7 +32,7 @@ fn queue_len[T](q: Queue[T]) -> usize {
     q.len
 }
 
-fn queue_enqueue[T](q: Queue[T], _v: T) -> Queue[T] {
+fn queue_enqueue[T](q: Queue[T]) -> Queue[T] {
     Queue { len: q.len + 1 }
 }
 

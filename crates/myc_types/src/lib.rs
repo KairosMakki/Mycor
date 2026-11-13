@@ -253,7 +253,7 @@ impl Checker {
             Expr::Call { callee, args, .. } => {
                 // callee path
                 let callee_name = match &**callee {
-                    Expr::Path(p, _) if p.len() == 1 => p[0].clone(),
+                    Expr::Path(p, _) if !p.is_empty() => p[p.len() - 1].clone(),
                     _ => String::new(),
                 };
                 if let Some(sig) = self.functions.get(&callee_name).cloned() {

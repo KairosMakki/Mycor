@@ -120,7 +120,7 @@ fn main() {
                 println!("check ok");
             } else {
                 for d in diags {
-                    println!("{:?}", d.code);
+                    println!("{:?}", d);
                 }
             }
         }
