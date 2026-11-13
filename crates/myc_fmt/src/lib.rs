@@ -264,6 +264,12 @@ fn fmt_expr(e: &Expr, out: &mut String, d: usize) {
             out.push_str(&ind(d));
             out.push('}');
         }
+        Expr::Spawn { body, .. } => {
+            out.push_str("spawn {\n");
+            fmt_block(body, out, d + 1);
+            out.push_str(&ind(d));
+            out.push('}');
+        }
         Expr::Block(b) => {
             out.push_str("{\n");
             fmt_block(b, out, d + 1);

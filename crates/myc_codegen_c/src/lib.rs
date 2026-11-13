@@ -231,6 +231,13 @@ impl<'a> Gen<'a> {
                     self.indent -= 1;
                     self.out.push_str(&format!("{}}}\n", self.ind()));
                 }
+                Expr::Spawn { body, .. } => {
+                    self.out.push_str(&format!("{}{{\n", self.ind()));
+                    self.indent += 1;
+                    self.gen_block_stmts(body);
+                    self.indent -= 1;
+                    self.out.push_str(&format!("{}}}\n", self.ind()));
+                }
                 _ => {
                     let code = self.gen_expr(e);
                     self.out.push_str(&format!("{}{};\n", self.ind(), code));
@@ -394,8 +401,11 @@ impl<'a> Gen<'a> {
             }
             Expr::Try { expr, .. } => self.gen_expr(expr),
             Expr::Unsafe { block, .. } => {
-                // generate block as statement expr not supported; 0
                 let _ = block;
+                "0".to_string()
+            }
+            Expr::Spawn { body, .. } => {
+                let _ = body;
                 "0".to_string()
             }
             Expr::Tuple { .. } => "0".to_string(),

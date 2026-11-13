@@ -240,6 +240,7 @@ impl Interpreter {
                 Ok(Value::Unit)
             }
             Expr::Block(b) => self.eval_block(b, env),
+            Expr::Spawn { body, .. } => self.eval_block(body, env),
             Expr::Assign { target, value, .. } => {
                 let v = self.eval_expr(value, env)?;
                 if let Expr::Path(p, _) = target.as_ref()

@@ -867,6 +867,7 @@ impl Parser {
             Expr::Range { span, .. } => *span,
             Expr::Try { span, .. } => *span,
             Expr::Unsafe { span, .. } => *span,
+            Expr::Spawn { span, .. } => *span,
             Expr::Tuple { span, .. } => *span,
             Expr::Array { span, .. } => *span,
         }
@@ -1472,6 +1473,14 @@ impl Parser {
                 let block = self.parse_block();
                 Expr::Unsafe {
                     block,
+                    span: self.peek_span(),
+                }
+            }
+            Some(myc_lexer::TokenKind::Spawn) => {
+                self.advance();
+                let body = self.parse_block();
+                Expr::Spawn {
+                    body,
                     span: self.peek_span(),
                 }
             }

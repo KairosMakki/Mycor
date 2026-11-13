@@ -251,6 +251,10 @@ pub enum Expr {
         block: Block,
         span: Span,
     },
+    Spawn {
+        body: Block,
+        span: Span,
+    },
     Tuple {
         elems: Vec<Expr>,
         span: Span,

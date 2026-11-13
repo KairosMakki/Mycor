@@ -138,6 +138,7 @@ fn check_expr(e: &Expr, ctx: &mut Ctx) {
         Expr::Cast { expr, .. } => check_expr(expr, ctx),
         Expr::Try { expr, .. } => check_expr(expr, ctx),
         Expr::Unsafe { block, .. } => check_block(block, ctx),
+        Expr::Spawn { body, .. } => check_block(body, ctx),
         Expr::Tuple { elems, .. } => {
             for e in elems {
                 check_expr(e, ctx);

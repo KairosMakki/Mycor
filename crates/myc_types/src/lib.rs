@@ -443,6 +443,10 @@ impl Checker {
                 self.check_block(block);
                 Ty::Void
             }
+            Expr::Spawn { body, .. } => {
+                self.check_block(body);
+                Ty::Void
+            }
         };
         // record type for all expr spans
         self.record(expr_span(e).start, ty.clone());
@@ -530,6 +534,7 @@ pub fn expr_span(e: &Expr) -> Span {
         Expr::Range { span, .. } => *span,
         Expr::Try { span, .. } => *span,
         Expr::Unsafe { span, .. } => *span,
+        Expr::Spawn { span, .. } => *span,
         Expr::Tuple { span, .. } => *span,
         Expr::Array { span, .. } => *span,
     }
