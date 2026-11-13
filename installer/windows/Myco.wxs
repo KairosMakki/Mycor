@@ -16,7 +16,7 @@
   <Fragment>
     <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
       <Component Id="MainExecutable" Guid="*">
-        <File Id="mycexe" Source="myc.exe" KeyPath="yes" />
+        <File Id="mycexe" Source="..\..\target\release\myc.exe" KeyPath="yes" />
       </Component>
     </ComponentGroup>
   </Fragment>
