@@ -1,9 +1,33 @@
-// Growable vector (placeholder using fixed array)
+// Growable vector (scaffolding using a length field).
 
 struct Vec[T] {
     len: usize,
 }
 
 fn vec_new[T]() -> Vec[T] {
-    Vec { len: 0 }
+    Vec { len: 0 as usize }
+}
+
+fn vec_len[T](v: Vec[T]) -> usize {
+    v.len
+}
+
+fn vec_is_empty[T](v: Vec[T]) -> bool {
+    v.len == 0
+}
+
+fn vec_push[T](v: Vec[T], _value: T) -> Vec[T] {
+    Vec { len: v.len + 1 }
+}
+
+fn vec_pop[T](v: Vec[T]) -> Vec[T] {
+    if v.len == 0 {
+        v
+    } else {
+        Vec { len: v.len - 1 }
+    }
+}
+
+fn vec_clear[T](v: Vec[T]) -> Vec[T] {
+    Vec { len: 0 as usize }
 }

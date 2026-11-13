@@ -263,6 +263,11 @@ pub enum Expr {
         elems: Vec<Expr>,
         span: Span,
     },
+    StructLit {
+        name: Ident,
+        fields: Vec<(Ident, Expr)>,
+        span: Span,
+    },
 }
 
 #[derive(Clone, Debug)]

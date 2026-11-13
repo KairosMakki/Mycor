@@ -101,6 +101,7 @@ impl Interpreter {
                     Ok(Value::Unit)
                 }
             }
+            Expr::StructLit { .. } => Ok(Value::Unit),
             Expr::Binary {
                 op, left, right, ..
             } => {
@@ -136,7 +137,7 @@ impl Interpreter {
             }
             Expr::Call { callee, args, .. } => {
                 let cname = match &**callee {
-                    Expr::Path(p, _) if p.len() == 1 => p[0].clone(),
+                    Expr::Path(p, _) if !p.is_empty() => p[p.len() - 1].clone(),
                     _ => String::new(),
                 };
                 if cname == "println" || cname == "print" {

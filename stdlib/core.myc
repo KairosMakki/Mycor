@@ -1,4 +1,4 @@
-// Core types: Option and Result
+// Core types: Option and Result, plus helpers.
 
 enum Option[T] {
     Some(T),
@@ -16,3 +16,39 @@ fn is_some[T](o: Option[T]) -> bool {
         None => false,
     }
 }
+
+fn is_none[T](o: Option[T]) -> bool {
+    match o {
+        Some(_) => false,
+        None => true,
+    }
+}
+
+fn unwrap_or[T](o: Option[T], default: T) -> T {
+    match o {
+        Some(v) => v,
+        None => default,
+    }
+}
+
+fn is_ok[T, E](r: Result[T, E]) -> bool {
+    match r {
+        Ok(_) => true,
+        Err(_) => false,
+    }
+}
+
+fn is_err[T, E](r: Result[T, E]) -> bool {
+    match r {
+        Ok(_) => false,
+        Err(_) => true,
+    }
+}
+
+fn unwrap_or_err[T, E](r: Result[T, E], default: T) -> T {
+    match r {
+        Ok(v) => v,
+        Err(_) => default,
+    }
+}
+

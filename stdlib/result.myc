@@ -1,0 +1,28 @@
+// Result helpers.
+
+enum Result[T, E] {
+    Ok(T),
+    Err(E),
+}
+
+fn ok[T, E](v: T) -> Result[T, E] {
+    Ok(v)
+}
+
+fn err[T, E](e: E) -> Result[T, E] {
+    Err(e)
+}
+
+fn is_ok[T, E](r: Result[T, E]) -> bool {
+    match r {
+        Ok(_) => true,
+        Err(_) => false,
+    }
+}
+
+fn unwrap_or[T, E](r: Result[T, E], d: T) -> T {
+    match r {
+        Ok(v) => v,
+        Err(_) => d,
+    }
+}

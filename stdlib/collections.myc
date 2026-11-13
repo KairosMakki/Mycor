@@ -1,0 +1,41 @@
+// Additional collection scaffolding.
+
+struct Stack[T] {
+    len: usize,
+}
+
+fn stack_new[T]() -> Stack[T] {
+    Stack { len: 0 as usize }
+}
+
+fn stack_len[T](s: Stack[T]) -> usize {
+    s.len
+}
+
+fn stack_push[T](s: Stack[T], _v: T) -> Stack[T] {
+    Stack { len: s.len + 1 }
+}
+
+fn stack_pop[T](s: Stack[T]) -> Stack[T] {
+    if s.len == 0 { s } else { Stack { len: s.len - 1 } }
+}
+
+struct Queue[T] {
+    len: usize,
+}
+
+fn queue_new[T]() -> Queue[T] {
+    Queue { len: 0 as usize }
+}
+
+fn queue_len[T](q: Queue[T]) -> usize {
+    q.len
+}
+
+fn queue_enqueue[T](q: Queue[T], _v: T) -> Queue[T] {
+    Queue { len: q.len + 1 }
+}
+
+fn queue_dequeue[T](q: Queue[T]) -> Queue[T] {
+    if q.len == 0 { q } else { Queue { len: q.len - 1 } }
+}

@@ -1,0 +1,17 @@
+// I/O helpers.
+
+fn print_i32(x: i32) {
+    println(x);
+}
+
+fn print_str(s: str) {
+    println(s);
+}
+
+fn print_bool(b: bool) {
+    println(b);
+}
+
+fn print_char(c: char) {
+    println(c);
+}

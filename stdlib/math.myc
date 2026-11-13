@@ -1,0 +1,33 @@
+// Math helpers.
+
+fn abs_i32(x: i32) -> i32 {
+    if x < 0 { -x } else { x }
+}
+
+fn min_i32(a: i32, b: i32) -> i32 {
+    if a < b { a } else { b }
+}
+
+fn max_i32(a: i32, b: i32) -> i32 {
+    if a > b { a } else { b }
+}
+
+fn clamp_i32(x: i32, lo: i32, hi: i32) -> i32 {
+    if x < lo { lo } else if x > hi { hi } else { x }
+}
+
+fn abs_f64(x: f64) -> f64 {
+    if x < 0.0 { -x } else { x }
+}
+
+fn min_f64(a: f64, b: f64) -> f64 {
+    if a < b { a } else { b }
+}
+
+fn max_f64(a: f64, b: f64) -> f64 {
+    if a > b { a } else { b }
+}
+
+fn sign_i32(x: i32) -> i32 {
+    if x < 0 { -1 } else if x > 0 { 1 } else { 0 }
+}

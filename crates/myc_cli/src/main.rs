@@ -81,18 +81,15 @@ fn main() {
         }
         Some(Commands::Run { file, interp }) => {
             let path = file.unwrap_or_else(|| PathBuf::from("main.myc"));
-            let src = fs::read_to_string(&path).unwrap_or_default();
             if interp {
-                let (f, _sm, _checker) =
-                    myc_driver::compile_source(&src, path.to_str().unwrap_or("main.myc"));
+                let (f, _sm, _checker) = myc_driver::compile_project(&path);
                 let mut interp = myc_interp::Interpreter::new(&f);
                 if let Err(e) = interp.run_main() {
                     eprintln!("interp error: {}", e);
                 }
             } else {
                 let out = std::env::temp_dir().join("myc_run.exe");
-                match myc_driver::build_executable(&src, path.to_str().unwrap_or("main.myc"), &out)
-                {
+                match myc_driver::build_project(&path, &out) {
                     Ok(exe) => {
                         let _ = myc_driver::run_executable(&exe);
                     }
@@ -103,25 +100,22 @@ fn main() {
             }
         }
         Some(Commands::Build { release: _ }) => {
-            let src = fs::read_to_string("main.myc").unwrap_or_default();
             let out = PathBuf::from("target/myc_app.exe");
             fs::create_dir_all("target").unwrap();
-            match myc_driver::build_executable(&src, "main.myc", &out) {
+            match myc_driver::build_project(std::path::Path::new("main.myc"), &out) {
                 Ok(_) => println!("built {}", out.display()),
                 Err(e) => eprintln!("error: {}", e),
             }
         }
         Some(Commands::Compile { file }) => {
-            let src = fs::read_to_string(&file).unwrap_or_default();
             let out = file.with_extension("exe");
-            match myc_driver::build_executable(&src, file.to_str().unwrap_or("main.myc"), &out) {
+            match myc_driver::build_project(&file, &out) {
                 Ok(_) => println!("compiled {}", out.display()),
                 Err(e) => eprintln!("error: {}", e),
             }
         }
         Some(Commands::Check) => {
-            let src = fs::read_to_string("main.myc").unwrap_or_default();
-            let diags = myc_driver::check_source(&src, "main.myc");
+            let diags = myc_driver::check_project(std::path::Path::new("main.myc"));
             if diags.is_empty() {
                 println!("check ok");
             } else {
@@ -131,9 +125,7 @@ fn main() {
             }
         }
         Some(Commands::EmitC { file }) => {
-            let src = fs::read_to_string(&file).unwrap_or_default();
-            let (f, _sm, checker) =
-                myc_driver::compile_source(&src, file.to_str().unwrap_or("main.myc"));
+            let (f, _sm, checker) = myc_driver::compile_project(&file);
             if !checker.diagnostics.is_empty() {
                 for d in &checker.diagnostics {
                     eprintln!("{}", d.code);
@@ -182,8 +174,7 @@ fn main() {
             println!("tests: {} passed, {} failed", p, f);
         }
         Some(Commands::Doc) => {
-            let src = fs::read_to_string("main.myc").unwrap_or_default();
-            let (f, _sm, _checker) = myc_driver::compile_source(&src, "main.myc");
+            let (f, _sm, _checker) = myc_driver::compile_project(std::path::Path::new("main.myc"));
             let html = format!(
                 "<html><body><pre>{}</pre></body></html>",
                 myc_doc::summarize(&f)
@@ -204,9 +195,8 @@ fn main() {
         }
         None => {
             if let Some(f) = cli.file {
-                let src = fs::read_to_string(&f).unwrap_or_default();
                 let out = std::env::temp_dir().join("myc_run.exe");
-                match myc_driver::build_executable(&src, f.to_str().unwrap_or("main.myc"), &out) {
+                match myc_driver::build_project(&f, &out) {
                     Ok(exe) => {
                         let _ = myc_driver::run_executable(&exe);
                     }

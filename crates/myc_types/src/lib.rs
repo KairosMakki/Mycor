@@ -293,6 +293,8 @@ impl Checker {
                     Add | Sub | Mul | Div | Rem => {
                         if lt == Ty::Str && rt == Ty::Str && matches!(op, Add) {
                             Ty::Str
+                        } else if lt == Ty::Usize || rt == Ty::Usize {
+                            Ty::Usize
                         } else if lt == Ty::F64 || rt == Ty::F64 {
                             Ty::F64
                         } else {
@@ -353,6 +355,22 @@ impl Checker {
             Expr::Loop { body, .. } => {
                 self.check_block(body);
                 Ty::Void
+            }
+            Expr::StructLit { name, fields, .. } => {
+                if let Some(def_fields) = self.structs.get(name).cloned() {
+                    for (fname, expr) in fields {
+                        let ft = def_fields
+                            .iter()
+                            .find(|(n, _)| n == fname)
+                            .map(|(_, t)| t.clone())
+                            .unwrap_or(Ty::Unknown);
+                        let at = self.check_expr(expr);
+                        if at != Ty::Unknown && at != Ty::Error && at != ft {
+                            self.diag_type_mismatch(expr_span(expr), &ft, &at);
+                        }
+                    }
+                }
+                Ty::Named(name.clone())
             }
             Expr::Block(b) => {
                 self.check_block(b);
@@ -432,9 +450,12 @@ impl Checker {
             Expr::Match {
                 scrutinee, arms, ..
             } => {
-                self.check_expr(scrutinee);
+                let st = self.check_expr(scrutinee);
                 for arm in arms {
+                    self.push_scope();
+                    self.bind_pattern(&arm.pattern, &st);
                     self.check_expr(&arm.body);
+                    self.pop_scope();
                 }
                 Ty::Void
             }
@@ -462,6 +483,30 @@ impl Checker {
     fn bind(&mut self, name: &str, ty: Ty) {
         if let Some(scope) = self.scopes.last_mut() {
             scope.insert(name.to_string(), ty);
+        }
+    }
+    fn bind_pattern(&mut self, pat: &myc_ast::Pattern, ty: &Ty) {
+        use myc_ast::Pattern::*;
+        match pat {
+            Binding(name, _) => {
+                self.bind(name, ty.clone());
+            }
+            Tuple(pats, _) => {
+                for p in pats {
+                    self.bind_pattern(p, ty);
+                }
+            }
+            Variant(_, pats, _) => {
+                for p in pats {
+                    self.bind_pattern(p, ty);
+                }
+            }
+            Or(pats, _) => {
+                for p in pats {
+                    self.bind_pattern(p, ty);
+                }
+            }
+            _ => {}
         }
     }
     fn lookup(&mut self, name: &str) -> Option<Ty> {
@@ -537,5 +582,6 @@ pub fn expr_span(e: &Expr) -> Span {
         Expr::Spawn { span, .. } => *span,
         Expr::Tuple { span, .. } => *span,
         Expr::Array { span, .. } => *span,
+        Expr::StructLit { span, .. } => *span,
     }
 }

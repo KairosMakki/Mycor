@@ -1,0 +1,20 @@
+// String helpers.
+
+fn concat(a: str, b: str) -> str {
+    a + b
+}
+
+fn repeat(s: str, n: i32) -> str {
+    let mut out = "";
+    let mut i = 0;
+    while i < n {
+        out = out + s;
+        i = i + 1;
+    }
+    out
+}
+
+fn is_empty(s: str) -> bool {
+    // placeholder: cannot measure length yet
+    false
+}

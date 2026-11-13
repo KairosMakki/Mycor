@@ -276,11 +276,18 @@ impl<'a> Gen<'a> {
                 }
             }
             Expr::Path(p, _) => {
-                if p.len() == 1 {
-                    p[0].clone()
+                if p.is_empty() {
+                    "unknown".to_string()
                 } else {
-                    p.join("_")
+                    p[p.len() - 1].clone()
                 }
+            }
+            Expr::StructLit { name, fields, .. } => {
+                let mut parts = Vec::new();
+                for (f, e) in fields {
+                    parts.push(format!(".{} = {}", f, self.gen_expr(e)));
+                }
+                format!("({}){{ {} }}", name, parts.join(", "))
             }
             Expr::Binary {
                 op, left, right, ..
@@ -322,7 +329,7 @@ impl<'a> Gen<'a> {
             }
             Expr::Call { callee, args, .. } => {
                 let cname = match &**callee {
-                    Expr::Path(p, _) if p.len() == 1 => p[0].clone(),
+                    Expr::Path(p, _) if !p.is_empty() => p[p.len() - 1].clone(),
                     _ => "unknown".to_string(),
                 };
                 let a: Vec<String> = args.iter().map(|x| self.gen_expr(x)).collect();

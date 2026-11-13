@@ -1,0 +1,34 @@
+// Concurrency scaffolding.
+
+struct AtomicUsize {
+    value: usize,
+}
+
+fn atomic_new(v: usize) -> AtomicUsize {
+    AtomicUsize { value: v }
+}
+
+fn atomic_load(a: AtomicUsize) -> usize {
+    a.value
+}
+
+fn atomic_store(a: AtomicUsize, v: usize) -> AtomicUsize {
+    AtomicUsize { value: v }
+}
+
+struct Mutex[T] {
+    locked: bool,
+    value: T,
+}
+
+fn mutex_new[T](v: T) -> Mutex[T] {
+    Mutex { locked: false, value: v }
+}
+
+fn mutex_lock[T](m: Mutex[T]) -> Mutex[T] {
+    Mutex { locked: true, value: m.value }
+}
+
+fn mutex_unlock[T](m: Mutex[T]) -> Mutex[T] {
+    Mutex { locked: false, value: m.value }
+}
