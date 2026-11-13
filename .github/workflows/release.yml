@@ -62,6 +62,7 @@ jobs:
     needs: [build-binaries, build-msi]
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
           path: artifacts
@@ -70,4 +71,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create "${{ github.ref_name }}" artifacts/* --title "${{ github.ref_name }}" --notes "Mycor release ${{ github.ref_name }}"
+          gh release create "${{ github.ref_name }}" artifacts/* --title "${{ github.ref_name }}" --notes "Mycor release ${{ github.ref_name }}" --repo "${{ github.repository }}"
