@@ -1,0 +1,73 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-binaries:
+    name: build ${{ matrix.target }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            bin: myc.exe
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            bin: myc
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            bin: myc
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - run: cargo build --release --target ${{ matrix.target }}
+      - name: package
+        shell: bash
+        run: |
+          mkdir -p dist
+          cp target/${{ matrix.target }}/release/${{ matrix.bin }} dist/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: myc-${{ matrix.target }}
+          path: dist/*
+
+  build-msi:
+    name: build msi
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo build --release
+      - name: install wix
+        run: dotnet tool install --global wix --version 4.0.4
+      - name: build msi
+        working-directory: installer/windows
+        run: ./build.ps1 -Version "${{ github.ref_name }}" -OutDir "../../target/installer"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mycor-msi
+          path: target/installer/*.msi
+
+  release:
+    name: publish release
+    needs: [build-binaries, build-msi]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+      - name: create release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ github.ref_name }}" artifacts/* --title "${{ github.ref_name }}" --notes "Mycor release ${{ github.ref_name }}"
