@@ -1,0 +1,12 @@
+[package]
+name = "myc_span"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "Source spans, positions, file ids, and string interning for the Mycor compiler."
+
+[dependencies]
+
+[lib]
+name = "myc_span"

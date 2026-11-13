@@ -1,0 +1,46 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/myc_span",
+    "crates/myc_diagnostics",
+    "crates/myc_lexer",
+    "crates/myc_ast",
+    "crates/myc_parser",
+    "crates/myc_resolve",
+    "crates/myc_types",
+    "crates/myc_hir",
+    "crates/myc_mir",
+    "crates/myc_borrowck",
+    "crates/myc_codegen_c",
+    "crates/myc_interp",
+    "crates/myc_driver",
+    "crates/myc_pkg",
+    "crates/myc_fmt",
+    "crates/myc_doc",
+    "crates/myc_lsp",
+    "crates/myc_test_harness",
+    "crates/myc_cli",
+]
+default-members = ["crates/myc_cli"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.91"
+license = "MIT OR Apache-2.0"
+authors = ["Mycor contributors"]
+repository = "https://github.com/KairosMakki/Mycor"
+
+[workspace.dependencies]
+# kept minimal; see docs/design/dependencies.md
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+clap = { version = "4", features = ["derive"] }
+toml = "0.8"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+
+[profile.dev]
+opt-level = 0

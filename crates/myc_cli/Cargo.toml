@@ -1,0 +1,16 @@
+[package]
+name = "myc_cli"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "The myc binary: argument parsing and dispatch only."
+
+[[bin]]
+name = "myc"
+path = "src/main.rs"
+
+[dependencies]
+myc_driver = { path = "../myc_driver" }
+myc_pkg = { path = "../myc_pkg" }
+clap = { workspace = true }

@@ -1,0 +1,26 @@
+[package]
+name = "myc_driver"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "Pipeline orchestration, toolchain detection, and linking for Mycor."
+
+[dependencies]
+myc_span = { path = "../myc_span" }
+myc_diagnostics = { path = "../myc_diagnostics" }
+myc_lexer = { path = "../myc_lexer" }
+myc_parser = { path = "../myc_parser" }
+myc_resolve = { path = "../myc_resolve" }
+myc_types = { path = "../myc_types" }
+myc_hir = { path = "../myc_hir" }
+myc_mir = { path = "../myc_mir" }
+myc_borrowck = { path = "../myc_borrowck" }
+myc_codegen_c = { path = "../myc_codegen_c" }
+myc_interp = { path = "../myc_interp" }
+myc_pkg = { path = "../myc_pkg" }
+myc_fmt = { path = "../myc_fmt" }
+myc_doc = { path = "../myc_doc" }
+
+[lib]
+name = "myc_driver"

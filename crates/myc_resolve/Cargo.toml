@@ -1,0 +1,15 @@
+[package]
+name = "myc_resolve"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "Name resolution and module system for Mycor."
+
+[dependencies]
+myc_span = { path = "../myc_span" }
+myc_ast = { path = "../myc_ast" }
+myc_diagnostics = { path = "../myc_diagnostics" }
+
+[lib]
+name = "myc_resolve"

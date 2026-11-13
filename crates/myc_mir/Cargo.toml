@@ -1,0 +1,15 @@
+[package]
+name = "myc_mir"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "Mid-level IR and optimization passes for Mycor."
+
+[dependencies]
+myc_span = { path = "../myc_span" }
+myc_hir = { path = "../myc_hir" }
+myc_types = { path = "../myc_types" }
+
+[lib]
+name = "myc_mir"

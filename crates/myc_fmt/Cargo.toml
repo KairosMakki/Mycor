@@ -1,0 +1,16 @@
+[package]
+name = "myc_fmt"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "Code formatter for Mycor."
+
+[dependencies]
+myc_span = { path = "../myc_span" }
+myc_ast = { path = "../myc_ast" }
+myc_parser = { path = "../myc_parser" }
+myc_lexer = { path = "../myc_lexer" }
+
+[lib]
+name = "myc_fmt"

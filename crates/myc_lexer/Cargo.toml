@@ -1,0 +1,14 @@
+[package]
+name = "myc_lexer"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "Lexer for the Mycor language: tokens with precise spans and UTF-8 support."
+
+[dependencies]
+myc_span = { path = "../myc_span" }
+myc_diagnostics = { path = "../myc_diagnostics" }
+
+[lib]
+name = "myc_lexer"

@@ -1,0 +1,14 @@
+[package]
+name = "myc_doc"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "Documentation generator for Mycor."
+
+[dependencies]
+myc_span = { path = "../myc_span" }
+myc_ast = { path = "../myc_ast" }
+
+[lib]
+name = "myc_doc"

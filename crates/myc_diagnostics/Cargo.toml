@@ -1,0 +1,13 @@
+[package]
+name = "myc_diagnostics"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "Diagnostic reporting: error codes, labels, suggestions, rendering, JSON output."
+
+[dependencies]
+myc_span = { path = "../myc_span" }
+
+[lib]
+name = "myc_diagnostics"

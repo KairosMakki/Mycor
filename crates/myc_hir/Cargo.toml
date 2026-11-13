@@ -1,0 +1,16 @@
+[package]
+name = "myc_hir"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "High-level IR after name resolution for Mycor."
+
+[dependencies]
+myc_span = { path = "../myc_span" }
+myc_ast = { path = "../myc_ast" }
+myc_types = { path = "../myc_types" }
+myc_resolve = { path = "../myc_resolve" }
+
+[lib]
+name = "myc_hir"

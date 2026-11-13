@@ -1,0 +1,13 @@
+[package]
+name = "myc_test_harness"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "Compile-fail, run-pass, and snapshot test runners for Mycor."
+
+[dependencies]
+myc_driver = { path = "../myc_driver" }
+
+[lib]
+name = "myc_test_harness"

@@ -1,0 +1,16 @@
+[package]
+name = "myc_lsp"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "Language server for Mycor."
+
+[dependencies]
+myc_span = { path = "../myc_span" }
+myc_diagnostics = { path = "../myc_diagnostics" }
+myc_parser = { path = "../myc_parser" }
+myc_driver = { path = "../myc_driver" }
+
+[lib]
+name = "myc_lsp"

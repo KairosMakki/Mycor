@@ -1,0 +1,13 @@
+[package]
+name = "myc_ast"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "Abstract syntax tree definitions and visitors for Mycor."
+
+[dependencies]
+myc_span = { path = "../myc_span" }
+
+[lib]
+name = "myc_ast"
