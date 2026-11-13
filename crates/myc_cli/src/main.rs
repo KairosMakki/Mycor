@@ -3,7 +3,7 @@ use std::fs;
 use std::path::PathBuf;
 
 #[derive(ClapParser)]
-#[command(name = "myc", version = "0.1.0", about = "Mycor compiler")]
+#[command(name = "myc", version = "0.2.0", about = "Mycor compiler")]
 struct Cli {
     #[command(subcommand)]
     command: Option<Commands>,
@@ -156,7 +156,7 @@ fn main() {
                 println!("No documentation for {}", code);
             }
         }
-        Some(Commands::Version) => println!("myc 0.1.0"),
+        Some(Commands::Version) => println!("myc 0.2.0"),
         Some(Commands::Repl) => {
             println!("myc repl (not fully implemented)");
         }
@@ -213,7 +213,7 @@ fn main() {
                     Err(e) => eprintln!("error: {}", e),
                 }
             } else {
-                println!("myc 0.1.0");
+                println!("myc 0.2.0");
             }
         }
     }

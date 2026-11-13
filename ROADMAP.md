@@ -9,16 +9,26 @@
 - C backend and driver (Windows/Linux/macOS via clang)
 - Interpreter and differential tests
 - Standard library (partial), formatter, doc generator (basic)
-- Error catalog (85 entries)
+- Error catalog (85+ entries)
+
+## Done in 0.2.0
+
+- Spawn expression and concurrency syntax
+- LSP server (basic)
+- VS Code TextMate grammar
+- Doc and clean commands
+- Standard library scaffolding
+- Version bump to 0.2.0
+- Expanded documentation
 
 ## Remaining
 
 - Full standard library with doc tests
-- Concurrency: spawn syntax present; channels, mutex, atomics, scoped threads pending
-- Language server (LSP) and VS Code extension
+- Concurrency: channels, mutex, atomics, scoped threads
+- Language server (LSP) completion and VS Code extension
 - WiX installer build validation
 - Benchmarks against C and Rust
 - Additional error catalog tests (compile-fail per code)
-- Generics monomorphization in backend
+- Generics monomorphization polish in backend
 - Cross compilation polish
 - WebAssembly target

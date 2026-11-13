@@ -7,3 +7,9 @@ Every dependency is listed here with its justification. The rest of the compiler
 - `toml`: parsing and writing `mycor.toml` manifests.
 
 No other third-party crates are used in the compiler core. Editor extensions and installers may use their own toolchains.
+
+## Adding a dependency
+
+1. Justify it in this file.
+2. Add to `[workspace.dependencies]` in the root `Cargo.toml`.
+3. Prefer standard library or existing workspace crates first.

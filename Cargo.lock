@@ -208,14 +208,14 @@ checksum = "cf8baf1c55e62ffcace7a9f06f4bd9cd3f0c4beb022d3b367256b91b87513d98"
 
 [[package]]
 name = "myc_ast"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "myc_span",
 ]
 
 [[package]]
 name = "myc_borrowck"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "myc_ast",
  "myc_diagnostics",
@@ -227,7 +227,7 @@ dependencies = [
 
 [[package]]
 name = "myc_cli"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "clap",
  "myc_codegen_c",
@@ -241,7 +241,7 @@ dependencies = [
 
 [[package]]
 name = "myc_codegen_c"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "myc_ast",
  "myc_hir",
@@ -252,14 +252,14 @@ dependencies = [
 
 [[package]]
 name = "myc_diagnostics"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "myc_span",
 ]
 
 [[package]]
 name = "myc_doc"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "myc_ast",
  "myc_span",
@@ -267,7 +267,7 @@ dependencies = [
 
 [[package]]
 name = "myc_driver"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "myc_ast",
  "myc_borrowck",
@@ -288,7 +288,7 @@ dependencies = [
 
 [[package]]
 name = "myc_fmt"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "myc_ast",
  "myc_lexer",
@@ -298,7 +298,7 @@ dependencies = [
 
 [[package]]
 name = "myc_hir"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "myc_ast",
  "myc_resolve",
@@ -308,7 +308,7 @@ dependencies = [
 
 [[package]]
 name = "myc_interp"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "myc_ast",
  "myc_hir",
@@ -319,7 +319,7 @@ dependencies = [
 
 [[package]]
 name = "myc_lexer"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "myc_diagnostics",
  "myc_span",
@@ -327,7 +327,7 @@ dependencies = [
 
 [[package]]
 name = "myc_lsp"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "lsp-server",
  "lsp-types",
@@ -340,7 +340,7 @@ dependencies = [
 
 [[package]]
 name = "myc_mir"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "myc_ast",
  "myc_hir",
@@ -350,7 +350,7 @@ dependencies = [
 
 [[package]]
 name = "myc_parser"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "myc_ast",
  "myc_diagnostics",
@@ -360,7 +360,7 @@ dependencies = [
 
 [[package]]
 name = "myc_pkg"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "myc_span",
  "serde",
@@ -369,7 +369,7 @@ dependencies = [
 
 [[package]]
 name = "myc_resolve"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "myc_ast",
  "myc_diagnostics",
@@ -378,18 +378,18 @@ dependencies = [
 
 [[package]]
 name = "myc_span"
-version = "0.1.0"
+version = "0.2.0"
 
 [[package]]
 name = "myc_test_harness"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "myc_driver",
 ]
 
 [[package]]
 name = "myc_types"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "myc_ast",
  "myc_diagnostics",

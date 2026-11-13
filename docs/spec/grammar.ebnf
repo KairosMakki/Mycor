@@ -1,0 +1,88 @@
+(* Mycor grammar (simplified EBNF) *)
+
+file        = { item } ;
+item        = fn | struct | enum | const | static | type | mod | use | impl | trait | extern ;
+
+fn          = "fn" IDENT generics? "(" params? ")" ( "->" type )? ( block | ";" ) ;
+params      = param { "," param } [ "," ] ;
+param       = "mut"? IDENT ":" type ;
+
+struct      = "struct" IDENT generics? "{" { field } "}" ;
+field       = visibility? IDENT ":" type ;
+enum        = "enum" IDENT generics? "{" { variant } "}" ;
+variant     = IDENT [ "(" type { "," type } ")" ] ;
+
+trait       = "trait" IDENT generics? "{" { trait_fn } "}" ;
+trait_fn    = "fn" IDENT generics? "(" params? ")" ( "->" type )? ( block | ";" ) ;
+impl        = "impl" generics? ( trait_name "for" )? type "{" { fn } "}" ;
+
+const       = "const" IDENT ":" type "=" expr ";" ;
+static      = "static" IDENT ":" type "=" expr ";" ;
+type        = "type" IDENT generics? "=" type ";" ;
+mod         = "mod" IDENT ";" ;
+use         = "use" path ( "::" "{" use_list "}" )? ";" ;
+use_list    = IDENT { "," IDENT } [ "," ] ;
+extern      = "extern" STRING? "fn" IDENT "(" params? ")" ( "->" type )? ";" ;
+
+visibility  = "pub" ;
+
+block       = "{" { stmt } expr? "}" ;
+stmt        = "let" "mut"? IDENT ( ":" type )? ( "=" expr )? ";"
+            | "return" expr? ";"
+            | "defer" expr ";"
+            | "break" ";"
+            | "continue" ";"
+            | expr ";" ;
+
+expr        = literal | IDENT | path | closure | "(" expr ")"
+            | expr binop expr | unary expr | call | method | field | index
+            | "if" expr block ( "else" ( block | expr ) )?
+            | "while" expr block
+            | "for" IDENT "in" expr block
+            | "loop" block
+            | "match" expr "{" { arm } "}"
+            | "unsafe" block
+            | "spawn" block
+            | "scope" "|" IDENT "|" block
+            | expr "?" ;
+arm         = pattern ( "if" expr )? "=>" ( expr | block ) [ "," ] ;
+
+pattern     = "_" | IDENT | literal | tuple_pat | struct_pat | enum_pat | range_pat | or_pat ;
+tuple_pat   = "(" pattern { "," pattern } ")" ;
+struct_pat  = IDENT "{" { IDENT [ ":" pattern ] } [ ".." ] "}" ;
+enum_pat    = path [ "(" pattern { "," pattern } ")" ] ;
+range_pat   = expr "..=" expr ;
+or_pat      = pattern { "|" pattern } ;
+
+type        = primitive | IDENT generics? | "&" type | "&mut" type
+            | "*" type | "*mut" type | "[" type ";" expr "]"
+            | "&" "[" type "]" | "(" type { "," type } ")" | "fn" "(" types? ")" ( "->" type )? ;
+types       = type { "," type } ;
+
+generics    = "[" IDENT { "," IDENT } [ ":" bounds ] "]" ;
+bounds      = bound { "+" bound } ;
+bound       = IDENT ;
+
+path        = IDENT { "::" IDENT } ;
+call        = expr "(" args? ")" ;
+args        = expr { "," expr } [ "," ] ;
+method      = expr "." IDENT call? ;
+field       = expr "." IDENT ;
+index       = expr "[" expr "]" ;
+closure     = "|" params? "|" ( "->" type )? ( expr | block ) ;
+
+binop       = "+" | "-" | "*" | "/" | "%" | "==" | "!=" | "<" | "<=" | ">" | ">="
+            | "&&" | "||" | "&" | "|" | "^" | "<<" | ">>" | ".." | "..=" ;
+unary       = "-" | "!" | "~" | "*" | "&" | "&mut" ;
+
+literal     = INT | FLOAT | STRING | CHAR | BOOL ;
+primitive   = "i8" | "i16" | "i32" | "i64" | "isize"
+            | "u8" | "u16" | "u32" | "u64" | "usize"
+            | "f32" | "f64" | "bool" | "char" | "str" ;
+
+IDENT       = letter { letter | digit | "_" } ;
+INT         = digit { digit } ;
+FLOAT       = digit { digit } "." digit { digit } [ ( "e" | "E" ) [ "+" | "-" ] digit { digit } ] ;
+STRING      = '"' { any } '"' ;
+CHAR        = "'" any "'" ;
+BOOL        = "true" | "false" ;

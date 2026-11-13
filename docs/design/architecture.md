@@ -15,7 +15,7 @@ source (.myc)
   -> driver (myc_driver) -> invokes C compiler and linker -> native binary
 ```
 
-The interpreter (myc_interp) consumes HIR/MIR for `myc run --interp`, the REPL, and compile-time evaluation.
+The interpreter (`myc_interp`) consumes HIR/MIR for `myc run --interp`, the REPL, and compile-time evaluation. The doc generator (`myc_doc`) and formatter (`myc_fmt`) operate on the AST/HIR. The LSP (`myc_lsp`) reuses the same pipeline for diagnostics.
 
 ## Crate graph
 
@@ -47,4 +47,18 @@ Phases communicate through well-defined data types (AST, HIR, MIR). There is no 
 
 ## Error handling
 
-User errors are diagnostics with stable codes. Internal failures use `Result` with typed errors. Panics are reserved for compiler bugs and carry a "this is a compiler bug" message.
+User errors are diagnostics with stable codes (`E0xxx`, `W0xxx`). Internal failures use `Result` with typed errors. Panics are reserved for compiler bugs and carry a "this is a compiler bug" message.
+
+## Spans and diagnostics
+
+`myc_span` provides `FileId` and `Span` (byte offsets). `myc_diagnostics` renders human-readable and JSON output. Every diagnostic carries a stable code documented in `docs/errors`.
+
+## Backends
+
+The primary backend is C11 (`myc_codegen_c`). The driver locates a C compiler (clang/gcc/cc/cl) and invokes it. Additional targets are listed by `myc targets`.
+
+## Testing
+
+- Unit tests per crate.
+- Integration: `tests/run_pass`, `tests/compile_fail`.
+- Interpreter differential tests compare interp vs native.

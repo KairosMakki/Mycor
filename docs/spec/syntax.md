@@ -1,6 +1,6 @@
 # Mycor syntax summary
 
-File extension: `.myc`. One statement per line is not required; semicolons separate statements. Newlines may act as statement terminators in unambiguous positions, but semicolons are always accepted.
+File extension: `.myc`. Statements are separated by semicolons or newlines in unambiguous positions. Semicolons are always accepted.
 
 ## Items
 
@@ -38,7 +38,15 @@ impl Display for Point {
 const MAX: usize = 1024;
 static COUNTER: AtomicUsize = AtomicUsize.new(0);
 type Alias = i64;
+
+mod util;
+use util::helper;
+use std::io::{read, write};
+
+pub fn public_fn() -> i32 { 0 }
 ```
+
+Top-level items are order independent. Forward declarations are allowed and checked for consistency.
 
 ## Variables and control flow
 
@@ -55,6 +63,7 @@ if x > 0 {
 
 while cond { ... }
 for i in 0..n { ... }
+for i in 0..=n { ... }
 loop { ... }
 
 match value {
@@ -63,19 +72,44 @@ match value {
 }
 
 defer cleanup();
+
+break;
+continue;
+return value;
 ```
 
 ## Types
 
-`i8 i16 i32 i64 isize  u8 u16 u32 u64 usize  f32 f64  bool  char  str`
+Primitives: `i8 i16 i32 i64 isize  u8 u16 u32 u64 usize  f32 f64  bool  char  str`
 
-Composite: `T*`? No. Arrays `[T; N]`, slices `&[T]`, tuples `(A, B)`, references `&T` and `&mut T`, raw pointers `*T` and `*mut T` (unsafe only), generics `Foo[T, U]`, function types `fn(i32) -> i32`.
+Composite:
+- Arrays: `[T; N]`
+- Slices: `&[T]`
+- Tuples: `(A, B)`
+- References: `&T`, `&mut T`
+- Raw pointers (unsafe only): `*T`, `*mut T`
+- Generics: `Foo[T, U]`
+- Function types: `fn(i32) -> i32`
+- Infer: `_` (where supported)
 
 Optional values use `Option[T]`. Errors use `Result[T, E]`. Propagation: `expr?`.
 
 ## Expressions
 
-Arithmetic `+ - * / %`, comparison `== != < <= > >=`, logical `&& || !`, bitwise `& | ^ ~ << >>`, assignment `=`, compound `+=` etc. Function call `f(a, b)`. Method call `x.method()`. Field access `p.x`. Index `a[i]`. Range `a..b`, `a..=b`. Cast `x as i64`. Closure `|a, b| a + b`.
+Arithmetic: `+ - * / %`
+Comparison: `== != < <= > >=`
+Logical: `&& || !`
+Bitwise: `& | ^ ~ << >>`
+Assignment: `=`, compound `+= -= *= /= %= &= |= ^= <<= >>=`
+Function call: `f(a, b)`
+Method call: `x.method()`
+Field access: `p.x`
+Index: `a[i]`
+Range: `a..b`, `a..=b`
+Cast: `x as i64`
+Closure: `|a, b| a + b`, `|x: i32| -> i32 { x }`
+Struct literal: `Point { x: 1.0, y: 2.0 }`
+Enum variant: `Color::Red`, `Option::Some(v)`
 
 ## Modules
 
@@ -84,8 +118,6 @@ mod util;          // loads util.myc or util/mod.myc
 use util::helper;  // import a name
 use std::io::{read, write};
 ```
-
-Top-level items are order independent. Forward declarations are allowed and checked for consistency.
 
 ## Concurrency
 
@@ -123,3 +155,8 @@ fn t() { ... }
 #[inline]
 fn hot() { ... }
 ```
+
+## Comments
+
+Line comments: `// ...`
+Block comments: `/* ... */` (nesting not supported).<|end|><|start|>write to=assistant<|channel|>analysis<|message|>Wrote file successfully: docs/spec/syntax.md
