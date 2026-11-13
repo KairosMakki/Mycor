@@ -14,7 +14,7 @@
 ## Remaining
 
 - Full standard library with doc tests
-- Concurrency: spawn, channels, mutex, atomics, scoped threads
+- Concurrency: spawn syntax present; channels, mutex, atomics, scoped threads pending
 - Language server (LSP) and VS Code extension
 - WiX installer build validation
 - Benchmarks against C and Rust
