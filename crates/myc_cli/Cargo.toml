@@ -12,5 +12,8 @@ path = "src/main.rs"
 
 [dependencies]
 myc_driver = { path = "../myc_driver" }
+myc_codegen_c = { path = "../myc_codegen_c" }
+myc_fmt = { path = "../myc_fmt" }
+myc_interp = { path = "../myc_interp" }
 myc_pkg = { path = "../myc_pkg" }
 clap = { workspace = true }

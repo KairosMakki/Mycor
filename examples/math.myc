@@ -1,0 +1,21 @@
+fn add(a: i32, b: i32) -> i32 {
+    a + b
+}
+
+fn main() {
+    let x = add(2, 3);
+    println(x);
+    let mut y = 10;
+    y = y + 1;
+    println(y);
+    if x > 4 {
+        println("big");
+    } else {
+        println("small");
+    }
+    let mut i = 0;
+    while i < 3 {
+        println(i);
+        i = i + 1;
+    }
+}

@@ -8,6 +8,7 @@ description = "Pipeline orchestration, toolchain detection, and linking for Myco
 
 [dependencies]
 myc_span = { path = "../myc_span" }
+myc_ast = { path = "../myc_ast" }
 myc_diagnostics = { path = "../myc_diagnostics" }
 myc_lexer = { path = "../myc_lexer" }
 myc_parser = { path = "../myc_parser" }

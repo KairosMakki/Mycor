@@ -8,6 +8,7 @@ description = "Bytecode interpreter and compile-time evaluation for Mycor."
 
 [dependencies]
 myc_span = { path = "../myc_span" }
+myc_ast = { path = "../myc_ast" }
 myc_hir = { path = "../myc_hir" }
 myc_mir = { path = "../myc_mir" }
 myc_types = { path = "../myc_types" }

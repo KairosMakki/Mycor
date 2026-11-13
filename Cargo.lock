@@ -149,10 +149,12 @@ dependencies = [
 name = "myc_borrowck"
 version = "0.1.0"
 dependencies = [
+ "myc_ast",
  "myc_diagnostics",
  "myc_hir",
  "myc_mir",
  "myc_span",
+ "myc_types",
 ]
 
 [[package]]
@@ -160,7 +162,10 @@ name = "myc_cli"
 version = "0.1.0"
 dependencies = [
  "clap",
+ "myc_codegen_c",
  "myc_driver",
+ "myc_fmt",
+ "myc_interp",
  "myc_pkg",
 ]
 
@@ -168,9 +173,11 @@ dependencies = [
 name = "myc_codegen_c"
 version = "0.1.0"
 dependencies = [
+ "myc_ast",
  "myc_hir",
  "myc_mir",
  "myc_span",
+ "myc_types",
 ]
 
 [[package]]
@@ -192,6 +199,7 @@ dependencies = [
 name = "myc_driver"
 version = "0.1.0"
 dependencies = [
+ "myc_ast",
  "myc_borrowck",
  "myc_codegen_c",
  "myc_diagnostics",
@@ -232,6 +240,7 @@ dependencies = [
 name = "myc_interp"
 version = "0.1.0"
 dependencies = [
+ "myc_ast",
  "myc_hir",
  "myc_mir",
  "myc_span",
@@ -260,6 +269,7 @@ dependencies = [
 name = "myc_mir"
 version = "0.1.0"
 dependencies = [
+ "myc_ast",
  "myc_hir",
  "myc_span",
  "myc_types",

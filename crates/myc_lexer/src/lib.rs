@@ -709,7 +709,6 @@ fn keyword(s: &str) -> Option<TokenKind> {
     })
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;

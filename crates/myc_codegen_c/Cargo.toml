@@ -8,6 +8,8 @@ description = "C11 backend for Mycor."
 
 [dependencies]
 myc_span = { path = "../myc_span" }
+myc_ast = { path = "../myc_ast" }
+myc_types = { path = "../myc_types" }
 myc_mir = { path = "../myc_mir" }
 myc_hir = { path = "../myc_hir" }
 

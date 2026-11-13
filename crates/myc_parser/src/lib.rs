@@ -74,7 +74,9 @@ impl Parser {
     }
 
     fn expect(&mut self, pred: fn(&myc_lexer::TokenKind) -> bool, msg: &str) -> Option<Token> {
-        if let Some(t) = self.peek() && pred(&t.kind) {
+        if let Some(t) = self.peek()
+            && pred(&t.kind)
+        {
             return self.advance();
         }
         let span = self.peek_span();
@@ -699,7 +701,9 @@ impl Parser {
         let mut expr = None;
         while !self.is(&myc_lexer::TokenKind::RBrace) && !self.at_eof() {
             // item?
-            if self.is_item_start() && let Some(item) = self.parse_item() {
+            if self.is_item_start()
+                && let Some(item) = self.parse_item()
+            {
                 stmts.push(Stmt::Item(item));
                 continue;
             }
@@ -1621,7 +1625,6 @@ fn item_span(item: &Item) -> Span {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1638,4 +1641,3 @@ mod tests {
         assert_eq!(file.items.len(), 1);
     }
 }
-
