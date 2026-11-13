@@ -1,0 +1,34 @@
+{
+  "name": "Mycor",
+  "scopeName": "source.myc",
+  "fileTypes": ["myc"],
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#keywords" },
+    { "include": "#numbers" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        { "name": "comment.line.double-slash.myc", "match": "//.*$" },
+        { "name": "comment.block.myc", "begin": "/\\*", "end": "\\*/" }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        { "name": "string.quoted.double.myc", "begin": "\"", "end": "\"", "patterns": [{ "name": "constant.character.escape.myc", "match": "\\\\." }] }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        { "name": "keyword.control.myc", "match": "\\b(fn|let|mut|if|else|while|for|loop|match|return|break|continue|defer|unsafe|struct|enum|trait|impl|const|static|type|mod|use|pub)\\b" }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        { "name": "constant.numeric.myc", "match": "\\b[0-9]+(\\.[0-9]+)?\\b" }
+      ]
+    }
+  }
+}
