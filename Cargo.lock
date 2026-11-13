@@ -231,6 +231,7 @@ version = "0.1.0"
 dependencies = [
  "clap",
  "myc_codegen_c",
+ "myc_doc",
  "myc_driver",
  "myc_fmt",
  "myc_interp",

@@ -16,5 +16,6 @@ myc_codegen_c = { path = "../myc_codegen_c" }
 myc_fmt = { path = "../myc_fmt" }
 myc_interp = { path = "../myc_interp" }
 myc_test_harness = { path = "../myc_test_harness" }
+myc_doc = { path = "../myc_doc" }
 myc_pkg = { path = "../myc_pkg" }
 clap = { workspace = true }

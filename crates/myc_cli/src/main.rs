@@ -181,11 +181,26 @@ fn main() {
             let (p, f) = myc_test_harness::run_all(std::path::Path::new("."));
             println!("tests: {} passed, {} failed", p, f);
         }
-        Some(Commands::Doc)
-        | Some(Commands::Fix)
-        | Some(Commands::Clean)
-        | Some(Commands::Bench) => {
-            println!("not yet implemented");
+        Some(Commands::Doc) => {
+            let src = fs::read_to_string("main.myc").unwrap_or_default();
+            let (f, _sm, _checker) = myc_driver::compile_source(&src, "main.myc");
+            let html = format!(
+                "<html><body><pre>{}</pre></body></html>",
+                myc_doc::summarize(&f)
+            );
+            let _ = fs::create_dir_all("target/doc");
+            let _ = fs::write("target/doc/index.html", html);
+            println!("docs written to target/doc");
+        }
+        Some(Commands::Fix) => {
+            println!("myc fix: not yet implemented");
+        }
+        Some(Commands::Clean) => {
+            let _ = fs::remove_dir_all("target");
+            println!("cleaned");
+        }
+        Some(Commands::Bench) => {
+            println!("myc bench: not yet implemented");
         }
         None => {
             if let Some(f) = cli.file {
