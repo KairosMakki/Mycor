@@ -154,10 +154,17 @@ fn check_expr(e: &Expr, ctx: &mut Ctx) {
             ..
         } => {
             check_expr(cond, ctx);
+            let saved = ctx.moved.clone();
+            ctx.moved = saved.clone();
             check_block(then_branch, ctx);
+            let then_moved = std::mem::replace(&mut ctx.moved, saved.clone());
             if let Some(eb) = else_branch {
                 check_expr(eb, ctx);
             }
+            let else_moved = std::mem::replace(&mut ctx.moved, saved.clone());
+            ctx.moved = saved;
+            ctx.moved.extend(then_moved);
+            ctx.moved.extend(else_moved);
         }
         Expr::While { cond, body, .. } => {
             check_expr(cond, ctx);
