@@ -8,18 +8,60 @@ use std::collections::{HashMap, HashSet};
 pub fn check(file: &File, type_map: &HashMap<u32, Ty>) -> Vec<Diagnostic> {
     let mut diags = Vec::new();
     for item in &file.items {
-        if let Item::Fn(f) = item
-            && let Some(body) = &f.body
-        {
-            let mut ctx = Ctx {
-                type_map,
-                moved: HashSet::new(),
-                diags: &mut diags,
-            };
-            check_block(body, &mut ctx);
+        if let Item::Fn(f) = item {
+            if is_ref_return(&f.ret) && returns_local_ref(&f.body) {
+                diags.push(
+                    Diagnostic::error(codes::E0304, "returning reference to local".to_string())
+                        .with_label(Label::primary(
+                            f.span,
+                            "returns a reference to a local value".to_string(),
+                        )),
+                );
+            }
+            if let Some(body) = &f.body {
+                let mut ctx = Ctx {
+                    type_map,
+                    moved: HashSet::new(),
+                    diags: &mut diags,
+                };
+                check_block(body, &mut ctx);
+            }
         }
     }
     diags
+}
+
+fn is_ref_return(ret: &Option<Type>) -> bool {
+    matches!(ret, Some(Type::Ref(_, _)) | Some(Type::RefMut(_, _)))
+}
+
+fn returns_local_ref(body: &Option<Block>) -> bool {
+    let Some(b) = body else {
+        return false;
+    };
+    if let Some(e) = &b.expr {
+        if is_ref_to_local(e) {
+            return true;
+        }
+    }
+    for s in &b.stmts {
+        if let Stmt::Return(Some(e)) = s
+            && is_ref_to_local(e)
+        {
+            return true;
+        }
+    }
+    false
+}
+
+fn is_ref_to_local(e: &Expr) -> bool {
+    match e {
+        Expr::Unary { op, operand, .. } => {
+            (matches!(op, UnOp::Ref | UnOp::RefMut))
+                && matches!(**operand, Expr::Path(ref p, _) if p.len() == 1)
+        }
+        _ => false,
+    }
 }
 
 struct Ctx<'a> {

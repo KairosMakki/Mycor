@@ -8,6 +8,7 @@ description = "Compile-fail, run-pass, and snapshot test runners for Mycor."
 
 [dependencies]
 myc_driver = { path = "../myc_driver" }
+myc_diagnostics = { path = "../myc_diagnostics" }
 
 [lib]
 name = "myc_test_harness"

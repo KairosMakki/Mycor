@@ -1,40 +1,47 @@
 # Contributing to Mycor
 
-## Where does my change go?
+Thanks for your interest in contributing to Mycor! This document outlines how to
+get started.
 
-- Lexer changes: `crates/myc_lexer`
-- Parser/syntax: `crates/myc_parser`, `crates/myc_ast`
-- Name resolution: `crates/myc_resolve`
-- Types: `crates/myc_types`
-- HIR: `crates/myc_hir`
-- MIR and optimizations: `crates/myc_mir`
-- Borrow checker: `crates/myc_borrowck`
-- Code generation: `crates/myc_codegen_c`
-- Interpreter: `crates/myc_interp`
-- Driver/pipeline: `crates/myc_driver`
-- Package manager: `crates/myc_pkg`
-- Formatter: `crates/myc_fmt`
-- Doc generator: `crates/myc_doc`
-- LSP: `crates/myc_lsp`
-- CLI: `crates/myc_cli`
+## Development setup
 
-## Build
+- Rust 1.91+ (see `rust-toolchain.toml`)
+- A C compiler (`clang` recommended; `gcc`/`cc`/`cl` also work)
 
-```
+Build the compiler:
+
+```sh
 cargo build
+```
+
+Run the test suite:
+
+```sh
 cargo test --workspace
 cargo fmt --check
 cargo clippy --workspace --all-targets -- -D warnings
 ```
 
-## Documentation
+## Workflow
 
-When changing behavior, update:
-- `README.md` and relevant `docs/book` chapters
-- `docs/spec/syntax.md` and `docs/spec/grammar.ebnf`
-- Error docs in `docs/errors` (keep in sync with `myc_diagnostics::codes`)
-- `ROADMAP.md` and `CHANGELOG.md`
+1. Fork the repository and create a feature branch.
+2. Make your changes. Keep commits focused and well-described.
+3. Add or update tests when fixing bugs or adding features.
+4. Run `cargo fmt` and `cargo clippy` before submitting.
+5. Open a pull request against `main`.
 
-## Commit style
+## Code style
 
-Short, imperative, specific. Example: "Fix borrow check for reborrowed slices".
+- Follow `rustfmt` defaults.
+- Prefer small, reviewable changes.
+- Document public APIs with doc comments.
+
+## Reporting issues
+
+Please use the issue templates in `.github/ISSUE_TEMPLATE`. For security
+issues, see `SECURITY.md`.
+
+## License
+
+By contributing, you agree that your contributions will be licensed under the
+project's MIT OR Apache-2.0 license.

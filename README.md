@@ -2,7 +2,7 @@
 
 Mycor (file extension `.myc`) is a small, fast, safe-by-construction systems programming language. It compiles to native code through C (C11) and manages memory with ownership and borrowing instead of a garbage collector. The compiler, tooling, and language server are written in Rust.
 
-- **Version:** 0.2.0
+- **Version:** 0.3.0
 - **License:** MIT OR Apache-2.0
 - **Repository:** https://github.com/KairosMakki/Mycor
 
@@ -102,7 +102,7 @@ version = "0.1.0"
 
 ## Status
 
-Version 0.2.0. See `ROADMAP.md` for implemented features and remaining work. Highlights of 0.2.0: spawn expression and concurrency syntax, basic LSP server, VS Code TextMate grammar, `doc` and `clean` commands, standard library scaffolding.
+Version 0.3.0. See `ROADMAP.md` for implemented features and remaining work. Highlights of 0.2.0: spawn expression and concurrency syntax, basic LSP server, VS Code TextMate grammar, `doc` and `clean` commands, standard library scaffolding.
 
 ## Contributing
 

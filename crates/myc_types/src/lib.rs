@@ -166,7 +166,39 @@ impl Checker {
                     }
                 }
             }
-            Item::Struct(_) | Item::Enum(_) | Item::Trait(_) | Item::Impl(_) => {}
+            Item::Struct(s) => {
+                for fld in &s.fields {
+                    let _ = Ty::from_ast(&fld.ty);
+                }
+                for g in &s.generics {
+                    for b in &g.bounds {
+                        let _ = Ty::from_ast(b);
+                    }
+                }
+            }
+            Item::Enum(e) => {
+                for v in &e.variants {
+                    for t in &v.fields {
+                        let _ = Ty::from_ast(t);
+                    }
+                }
+                for g in &e.generics {
+                    for b in &g.bounds {
+                        let _ = Ty::from_ast(b);
+                    }
+                }
+            }
+            Item::Trait(t) => {
+                for it in &t.items {
+                    self.check_item(it);
+                }
+            }
+            Item::Impl(i) => {
+                let _ = Ty::from_ast(&i.for_type);
+                for it in &i.items {
+                    self.check_item(it);
+                }
+            }
             _ => {}
         }
     }
@@ -226,6 +258,9 @@ impl Checker {
             Stmt::Return(None) => {}
             Stmt::Defer(e) => {
                 self.check_expr(e);
+            }
+            Stmt::Item(it) => {
+                self.check_item(it);
             }
             _ => {}
         }
