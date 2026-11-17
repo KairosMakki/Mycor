@@ -39,10 +39,10 @@ fn returns_local_ref(body: &Option<Block>) -> bool {
     let Some(b) = body else {
         return false;
     };
-    if let Some(e) = &b.expr {
-        if is_ref_to_local(e) {
-            return true;
-        }
+    if let Some(e) = &b.expr
+        && is_ref_to_local(e)
+    {
+        return true;
     }
     for s in &b.stmts {
         if let Stmt::Return(Some(e)) = s

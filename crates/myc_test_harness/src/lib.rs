@@ -21,7 +21,7 @@ fn extract_error_code(src: &str) -> Option<String> {
     for line in src.lines() {
         if let Some(idx) = line.find("error:") {
             let after = &line[idx + "error:".len()..];
-            let code = after.trim().split_whitespace().next().unwrap_or("");
+            let code = after.split_whitespace().next().unwrap_or("");
             if code.starts_with('E') {
                 return Some(code.to_string());
             }
