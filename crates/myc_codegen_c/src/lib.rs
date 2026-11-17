@@ -334,28 +334,87 @@ impl<'a> Gen<'a> {
                 };
                 let a: Vec<String> = args.iter().map(|x| self.gen_expr(x)).collect();
                 if cname == "println" || cname == "print" {
-                    // format based on first arg type
+                    let nl = if cname == "println" { "\\n" } else { "" };
+                    // formatted printing: first arg may be a format string
+                    if !args.is_empty()
+                        && let Expr::Lit(myc_ast::Lit::Str(fmt), _) = &args[0]
+                    {
+                        // transform `{}` placeholders into printf specifiers
+                        let mut out_fmt = String::new();
+                        let mut arg_idx = 1usize;
+                        let mut chars = fmt.chars().peekable();
+                        let mut printf_args: Vec<String> = Vec::new();
+                        while let Some(c) = chars.next() {
+                            if c == '{' {
+                                // consume until '}'
+                                while chars.peek().is_some() && *chars.peek().unwrap() != '}' {
+                                    chars.next();
+                                }
+                                chars.next(); // '}'
+                                if arg_idx < args.len() {
+                                    let ty = self.expr_ty(&args[arg_idx]);
+                                    let spec = match ty {
+                                        Ty::Str => "%s",
+                                        Ty::I32
+                                        | Ty::I64
+                                        | Ty::Isize
+                                        | Ty::Usize
+                                        | Ty::U8
+                                        | Ty::U16
+                                        | Ty::U32
+                                        | Ty::U64 => "%d",
+                                        Ty::F64 | Ty::F32 => "%f",
+                                        Ty::Bool => "%s",
+                                        Ty::Char => "%c",
+                                        _ => "%d",
+                                    };
+                                    out_fmt.push_str(spec);
+                                    if matches!(ty, Ty::Bool) {
+                                        printf_args
+                                            .push(format!("{} ? \"true\" : \"false\"", a[arg_idx]));
+                                    } else {
+                                        printf_args.push(a[arg_idx].clone());
+                                    }
+                                    arg_idx += 1;
+                                } else {
+                                    out_fmt.push_str("{}");
+                                }
+                            } else if c == '%' {
+                                out_fmt.push_str("%%");
+                            } else {
+                                out_fmt.push(c);
+                            }
+                        }
+                        out_fmt.push_str(nl);
+                        if printf_args.is_empty() {
+                            return format!("printf(\"{}\")", escape_str(&out_fmt));
+                        }
+                        return format!(
+                            "printf(\"{}\", {})",
+                            escape_str(&out_fmt),
+                            printf_args.join(", ")
+                        );
+                    }
                     if args.len() == 1 {
                         let ty = self.expr_ty(&args[0]);
                         match ty {
-                            Ty::Str => return format!("printf(\"%s\\n\", {})", a[0]),
+                            Ty::Str => return format!("printf(\"%s{}\", {})", nl, a[0]),
                             Ty::I32 | Ty::I64 | Ty::Isize | Ty::Usize => {
-                                return format!("printf(\"%d\\n\", {})", a[0]);
+                                return format!("printf(\"%d{}\", {})", nl, a[0]);
                             }
-                            Ty::F64 | Ty::F32 => return format!("printf(\"%f\\n\", {})", a[0]),
+                            Ty::F64 | Ty::F32 => return format!("printf(\"%f{}\", {})", nl, a[0]),
                             Ty::Bool => {
                                 return format!(
-                                    "printf(\"%s\\n\", {} ? \"true\" : \"false\")",
-                                    a[0]
+                                    "printf(\"%s{}\", {} ? \"true\" : \"false\")",
+                                    nl, a[0]
                                 );
                             }
-                            Ty::Char => return format!("printf(\"%c\\n\", {})", a[0]),
-                            _ => return format!("printf(\"%d\\n\", {})", a[0]),
+                            Ty::Char => return format!("printf(\"%c{}\", {})", nl, a[0]),
+                            _ => return format!("printf(\"%d{}\", {})", nl, a[0]),
                         }
                     }
-                    // multi-arg: print each? just first
                     if args.is_empty() {
-                        return "printf(\"\\n\")".to_string();
+                        return format!("printf(\"{}\")", nl);
                     }
                 }
                 format!("{}({})", cname, a.join(", "))
