@@ -16,9 +16,19 @@ pub fn load_manifest(dir: &Path) -> Option<Package> {
     for line in text.lines() {
         let line = line.trim();
         if let Some(v) = line.strip_prefix("name") {
-            name = v.trim().trim_matches('=').trim().trim_matches('"').to_string();
+            name = v
+                .trim()
+                .trim_matches('=')
+                .trim()
+                .trim_matches('"')
+                .to_string();
         } else if let Some(v) = line.strip_prefix("version") {
-            version = v.trim().trim_matches('=').trim().trim_matches('"').to_string();
+            version = v
+                .trim()
+                .trim_matches('=')
+                .trim()
+                .trim_matches('"')
+                .to_string();
         }
     }
     Some(Package { name, version })
